@@ -5,12 +5,13 @@ ARG DB_VERSION
 ARG REPO_USERNAME
 ARG REPO_PASSWORD
 
-ENV DB_VERSION $DB_VERSION
+ENV DATABASE_TYPE $DB_TYPE
+ENV DATABASE_VERSION $DB_VERSION
 
 ADD scripts/installation/ /tmp
 ADD scripts/setup/ /tmp
 
 RUN chmod u+x /tmp/db.sh /tmp/launcher.sh
-RUN /tmp/db.sh $DB_TYPE $DB_VERSION centos7 $REPO_USERNAME $REPO_PASSWORD
+RUN /tmp/db.sh centos7 $REPO_USERNAME $REPO_PASSWORD
 
 ENTRYPOINT /tmp/launcher.sh
