@@ -1,0 +1,25 @@
+---
+# tasks file for cluster
+- name: Start Primary Node
+  community.docker.docker_container:
+    name: "{{ primary }}"
+    state: started
+    image: "{{ image_name }}"
+    tty: yes
+    detach: yes
+    interactive: yes
+    env:
+      NODE: "primarydb"
+  register: primary_info
+- name: Start Replica Nodes
+  community.docker.docker_container:
+    name: "{{ item }}"
+    state: started
+    image: "{{ image_name }}"
+    tty: yes
+    detach: yes
+    interactive: yes
+    env:
+      NODE: "standbydb"
+      PRIMARY_IP: "{{ primary_info.container.NetworkSettings.IPAddress }}"
+  loop: "{{ replicas }}"

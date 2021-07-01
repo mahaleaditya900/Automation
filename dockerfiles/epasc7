@@ -1,0 +1,14 @@
+FROM centos:7
+ARG DB_VERSION
+ARG REPO_USERNAME
+ARG REPO_PASSWORD
+
+ENV DB_VERSION $DB_VERSION
+
+ADD scripts/installation/db.sh /tmp
+ADD scripts/setup/createprimary.sh /tmp
+
+RUN chmod u+x /tmp/db.sh /tmp/createprimary.sh
+RUN /tmp/db.sh epas $DB_VERSION centos7 $REPO_USERNAME $REPO_PASSWORD
+
+ENTRYPOINT /tmp/createprimary.sh

@@ -1,0 +1,14 @@
+---
+# tasks file for images
+- name: Build DB image
+  community.docker.docker_image:
+    build:
+      path: ..
+      dockerfile: dockerfiles/epasc7
+      args:
+        DB_VERSION: "{{ db_version }}"
+        REPO_USERNAME: "{{ repo_username }}"
+        REPO_PASSWORD: "{{ repo_password }}"
+    source: build
+    name: "{{ image_name }}"
+    state: present

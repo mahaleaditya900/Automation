@@ -1,0 +1,6 @@
+---
+# vars file for images
+db_version: 13
+image_name: dbimage
+repo_username: qmg
+repo_password: EdB123

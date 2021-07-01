@@ -1,0 +1,8 @@
+---
+# vars file for cluster
+primary: primary
+replicas:
+  - replica1
+  - replica2
+  - replica3
+image_name: dbimage
