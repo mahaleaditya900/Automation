@@ -4,7 +4,7 @@
   community.docker.docker_image:
     build:
       path: ..
-      dockerfile: "dockerfiles/db{{ platform }}{{ platform_version }}"
+      dockerfile: "dockerfiles/db/{{ platform }}{{ platform_version }}"
       args:
         DB_TYPE: "{{ db_type }}"
         DB_VERSION: "{{ db_version }}"

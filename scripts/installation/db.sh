@@ -24,9 +24,10 @@ installEPASC8 () {
   sed -i "s@<username>:<password>@$USERNAME:$PASSWORD@" /etc/yum.repos.d/edb.repo
   dnf -qy module disable postgresql
   dnf -y install "edb-as$DATABASE_VERSION-server"
+  dnf -y install sudo
 }
 
-if [ "$OS_TYPE" == "centos7" ]; then
+if [ "$OS_TYPE" = "centos7" ]; then
   installEPASC7
 else
   installEPASC8

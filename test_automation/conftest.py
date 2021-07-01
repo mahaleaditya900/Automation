@@ -58,7 +58,8 @@ def platform_version(request):
 def create_db_image(database_type, database_version, platform_type, platform_version):
     image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
     misc.run_playbook('build_db_image.yaml', extravars={
-        "db_version": database_version, "image_name": image_name
+        "db_type": database_type,"db_version": database_version,
+        "platform": platform_type, "platform_version": platform_version
     })
     return image_name
 
