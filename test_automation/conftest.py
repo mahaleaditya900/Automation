@@ -2,9 +2,15 @@ import pytest
 from utils import misc, clusters
 
 
+# Custom Pytest command line options
 def pytest_addoption(parser):
     group_db = parser.getgroup('DB Docker image options')
-
+    group_db.addoption(
+        "--db_type",
+        action="store",
+        default="epas",
+        help="Database type: epas/pg"
+    )
     group_db.addoption(
         "--db_version",
         action="store",
@@ -12,15 +18,45 @@ def pytest_addoption(parser):
         help="Database version"
     )
 
+    group_platform = parser.getgroup('OS options')
+    group_platform.addoption(
+        "--os_type",
+        action="store",
+        default="centos",
+        help="OS type"
+    )
+
+    group_platform.addoption(
+        "--os_version",
+        action="store",
+        default=7,
+        help="OS type"
+    )
+
+# Fixtures to retrieve command line options
+@pytest.fixture(scope="session")
+def database_type(request):
+    return request.config.getoption("--db_type")
+
 
 @pytest.fixture(scope="session")
 def database_version(request):
     return request.config.getoption("--db_version")
 
 
+@pytest.fixture(scope="session")
+def platform_type(request):
+    return request.config.getoption("--os_type")
+
+
+@pytest.fixture(scope="session")
+def platform_version(request):
+    return request.config.getoption("--os_version")
+
+# Setup fixtures
 @pytest.fixture(scope='session')
-def create_db_image(database_version):
-    image_name = "db{}".format(database_version)
+def create_db_image(database_type, database_version, platform_type, platform_version):
+    image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
     misc.run_playbook('build_db_image.yaml', extravars={
         "db_version": database_version, "image_name": image_name
     })

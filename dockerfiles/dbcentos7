@@ -1,0 +1,16 @@
+FROM centos:7
+
+ARG DB_TYPE
+ARG DB_VERSION
+ARG REPO_USERNAME
+ARG REPO_PASSWORD
+
+ENV DB_VERSION $DB_VERSION
+
+ADD scripts/installation/ /tmp
+ADD scripts/setup/ /tmp
+
+RUN chmod u+x /tmp/db.sh /tmp/launcher.sh
+RUN /tmp/db.sh $DB_TYPE $DB_VERSION centos7 $REPO_USERNAME $REPO_PASSWORD
+
+ENTRYPOINT /tmp/launcher.sh
