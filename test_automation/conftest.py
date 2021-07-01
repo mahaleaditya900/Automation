@@ -3,12 +3,14 @@ from utils import misc, clusters
 
 
 def pytest_addoption(parser):
-    group = parser.getgroup('DB Docker image options')
+    group_db = parser.getgroup('DB Docker image options')
 
-    group.addoption("--db_version",
-                    action="store",
-                    default=13,
-                    help="Database version")
+    group_db.addoption(
+        "--db_version",
+        action="store",
+        default=13,
+        help="Database version"
+    )
 
 
 @pytest.fixture(scope="session")
