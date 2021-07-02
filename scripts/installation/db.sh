@@ -43,16 +43,17 @@ installPGC8 () {
 
 # Script - start
 
-if [ "$OS_TYPE" = "centos7" ]; then
-  if [ "$DATABASE_TYPE" = "epas" ]; then
+case "$OS_TYPE$DATABASE_TYPE" in
+  "centos7epas")
     installEPASC7
-  else
+    ;;
+  "centos7pg")
     installPGC7
-  fi
-else
-  if [ "$DATABASE_TYPE" = "epas" ]; then
+    ;;
+  "centos8epas")
     installEPASC8
-  else
+    ;;
+  "centos8pg")
     installPGC8
-  fi
-fi
+    ;;
+esac
