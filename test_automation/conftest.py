@@ -33,6 +33,12 @@ def pytest_addoption(parser):
         help="OS type"
     )
 
+    group_test = parser.getgroup('Test options')
+    group_test.addoption(
+        "--debug_test", action="store_true", default=False,
+        help="Debug cluster by keeping nodes running after the test is complete"
+    )
+
 # Fixtures to retrieve command line options
 @pytest.fixture(scope="session")
 def database_type(request):
@@ -53,13 +59,18 @@ def platform_type(request):
 def platform_version(request):
     return request.config.getoption("--os_version")
 
+
+@pytest.fixture(scope="session")
+def debug(request):
+    return request.config.getoption("--debug_test")
+
 # Setup fixtures
 @pytest.fixture(scope='session')
 def create_db_image(database_type, database_version, platform_type, platform_version):
     image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
     db_props = misc.get_db_props(database_type)
     misc.run_playbook('build_db_image.yaml', extravars={
-        "db_type": database_type,"db_version": database_version,
+        "db_type": database_type, "db_version": database_version,
         "platform": platform_type, "platform_version": platform_version,
         "database_name": db_props["database_name"], "database_user": db_props["database_user"]
     })
@@ -70,7 +81,7 @@ def create_db_image(database_type, database_version, platform_type, platform_ver
 
 
 @pytest.fixture
-def create_cluster(request, create_db_image):
+def create_cluster(request, create_db_image, debug):
     # Create cluster
     image_name = create_db_image["image_name"]
     extravars = misc.get_test_vars(request.node.name)
@@ -86,7 +97,8 @@ def create_cluster(request, create_db_image):
     # Remove cluster
     def _tear_down():
         cluster.remove_all_nodes()
-    request.addfinalizer(_tear_down)
+    if not debug:
+        request.addfinalizer(_tear_down)
 
     return {
         "cluster": cluster,
