@@ -6,3 +6,6 @@ db_type: epas
 db_version: 13
 repo_username: qmg
 repo_password: EdB123
+db_port: 5433
+database_user: enterprisedb
+database_name: edb

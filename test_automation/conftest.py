@@ -57,17 +57,22 @@ def platform_version(request):
 @pytest.fixture(scope='session')
 def create_db_image(database_type, database_version, platform_type, platform_version):
     image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
+    db_props = misc.get_db_props(database_type)
     misc.run_playbook('build_db_image.yaml', extravars={
         "db_type": database_type,"db_version": database_version,
-        "platform": platform_type, "platform_version": platform_version
+        "platform": platform_type, "platform_version": platform_version,
+        "database_name": db_props["database_name"], "database_user": db_props["database_user"]
     })
-    return image_name
+    return {
+        "image_name": image_name,
+        "db_props": db_props
+    }
 
 
 @pytest.fixture
 def create_cluster(request, create_db_image):
     # Create cluster
-    image_name = create_db_image
+    image_name = create_db_image["image_name"]
     extravars = misc.get_test_vars(request.node.name)
     primary_name, standby_names = misc.get_node_names(extravars.get("standby_count", 0))
     extravars.update({
@@ -78,9 +83,12 @@ def create_cluster(request, create_db_image):
     misc.run_playbook('create_cluster.yaml', extravars=extravars)
     cluster = clusters.Cluster(primary_name, standby_names)
 
-    # Remove containers
+    # Remove cluster
     def _tear_down():
         cluster.remove_all_nodes()
     request.addfinalizer(_tear_down)
 
-    return cluster
+    return {
+        "cluster": cluster,
+        "db_props": create_db_image["db_props"]
+    }

@@ -15,6 +15,20 @@ def get_test_vars(test_name):
     return test_vars.tests[test_name]
 
 
+def get_db_props(db_type):
+    if db_type == "epas":
+        return {
+            "database_name": "edb",
+            "database_user": "enterprisedb",
+            "db_port": 5433
+        }
+    return {
+        "database_name": "postgres",
+        "database_user": "postgres",
+        "db_port": 5433
+    }
+
+
 def get_node_names(standby_count):
     global cluster_identifier
     cluster_identifier += 1

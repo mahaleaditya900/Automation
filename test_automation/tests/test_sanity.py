@@ -4,9 +4,14 @@ from test_automation.utils import database
 
 
 def test_new(create_cluster):
-    primary_ip = create_cluster.get_primary_ip()
+    cluster = create_cluster["cluster"]
+    db_props = create_cluster["db_props"]
+    primary_ip = cluster.get_primary_ip()
     time.sleep(10)
-    db = database.Database(primary_ip, 'edb', 5433, 'enterprisedb')
+    db = database.Database(
+        primary_ip, db_props["database_name"],
+        db_props["db_port"], db_props["database_user"]
+    )
     db.execute_query("CREATE TABLE test(id INT, name TEXT);")
     db.execute_query("INSERT INTO test values(1, 'Test');")
     db.execute_query("INSERT INTO test values(2, 'Name');")
@@ -16,9 +21,14 @@ def test_new(create_cluster):
 
 
 def test_new1(create_cluster):
-    primary_ip = create_cluster.get_primary_ip()
+    cluster = create_cluster["cluster"]
+    db_props = create_cluster["db_props"]
+    primary_ip = cluster.get_primary_ip()
     time.sleep(10)
-    db = database.Database(primary_ip, 'edb', 5433, 'enterprisedb')
+    db = database.Database(
+        primary_ip, db_props["database_name"],
+        db_props["db_port"], db_props["database_user"]
+    )
     db.execute_query("CREATE TABLE test(id INT, name TEXT);")
     db.execute_query("INSERT INTO test values(1, 'Test');")
     db.execute_query("INSERT INTO test values(2, 'Name');")

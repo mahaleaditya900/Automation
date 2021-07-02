@@ -10,6 +10,9 @@
         DB_VERSION: "{{ db_version }}"
         REPO_USERNAME: "{{ repo_username }}"
         REPO_PASSWORD: "{{ repo_password }}"
+        DBPORT: "{{ db_port }}"
+        DATABASE_USER: "{{ database_user }}"
+        DATABASE_NAME: "{{ database_name }}"
     source: build
     name: "db{{ db_type }}{{ platform }}{{ platform_version }}"
     state: present
