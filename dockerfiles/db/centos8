@@ -1,4 +1,4 @@
-FROM centos:8
+FROM basecentos8
 
 ARG DB_TYPE
 ARG DB_VERSION

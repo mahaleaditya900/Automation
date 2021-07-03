@@ -1,5 +1,14 @@
 ---
 # tasks file for images
+- name: Build base image
+  community.docker.docker_image:
+    build:
+      path: ..
+      dockerfile: "dockerfiles/base/{{ platform }}{{ platform_version }}"
+    source: build
+    name: "base{{ platform }}{{ platform_version }}"
+    state: present
+    force_source: yes
 - name: Build DB image
   community.docker.docker_image:
     build:
