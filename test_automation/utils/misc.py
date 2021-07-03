@@ -1,3 +1,4 @@
+import os
 import ansible_runner
 
 from test_automation.data import test_config
@@ -31,7 +32,11 @@ def get_db_props(db_type):
 
 def get_node_names(standby_count):
     global cluster_identifier
+    xdist_var = 'PYTEST_XDIST_WORKER'
+    gw_number = ""
+    if xdist_var in os.environ:
+        gw_number = "_p{}".format(os.environ.get(xdist_var)[-1])
     cluster_identifier += 1
-    primary_name = "primary_{}".format(cluster_identifier)
-    standby_names = ["replica{}_{}".format(cluster_identifier, i) for i in range(1, standby_count + 1)]
+    primary_name = "primary_{}{}".format(cluster_identifier, gw_number)
+    standby_names = ["replica{}_{}{}".format(cluster_identifier, i, gw_number) for i in range(1, standby_count + 1)]
     return primary_name, standby_names
