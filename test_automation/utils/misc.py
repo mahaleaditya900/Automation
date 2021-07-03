@@ -1,18 +1,18 @@
 import ansible_runner
 
-from test_automation.data import test_vars
+from test_automation.data import test_config
 
 cluster_identifier = 0
 
 
-def run_playbook(playbook, extravars=None, data_dir='ansible'):
+def run_playbook(playbook, extravars=None, data_dir='setup'):
     ansible_runner.run(private_data_dir=data_dir, playbook=playbook, extravars=extravars)
 
 
 def get_test_vars(test_name):
-    if test_name not in test_vars.tests:
+    if test_name not in test_config.tests:
         raise NameError("Test name {} not found in data/test_vars.".format(test_name))
-    return test_vars.tests[test_name]
+    return test_config.tests[test_name]
 
 
 def get_db_props(db_type):

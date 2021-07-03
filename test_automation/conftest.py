@@ -69,7 +69,7 @@ def debug(request):
 def create_db_image(database_type, database_version, platform_type, platform_version):
     image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
     db_props = misc.get_db_props(database_type)
-    misc.run_playbook('build_db_image.yaml', extravars={
+    misc.run_playbook('build_images.yaml', extravars={
         "db_type": database_type, "db_version": database_version,
         "platform": platform_type, "platform_version": platform_version,
         "database_name": db_props["database_name"], "database_user": db_props["database_user"]

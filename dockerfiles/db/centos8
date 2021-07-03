@@ -15,7 +15,7 @@ ENV DATABASE_USER $DATABASE_USER
 ENV DATABASE_NAME $DATABASE_NAME
 
 ADD scripts/installation/ /tmp
-ADD scripts/setup/ /tmp
+ADD scripts/cluster/ /tmp
 
 RUN chmod u+x /tmp/db.sh /tmp/launcher.sh
 RUN /tmp/db.sh centos8 $REPO_USERNAME $REPO_PASSWORD
