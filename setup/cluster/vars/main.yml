@@ -11,4 +11,5 @@ database_name: edb
 # Primary DB properties
 max_replication_slots: "5"
 wal_keep_size: "8000"
+wal_keep_segments: "500"
 db_port: "5433"
