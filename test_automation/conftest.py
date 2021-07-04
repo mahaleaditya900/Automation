@@ -86,10 +86,12 @@ def create_cluster(request, create_db_image, debug):
     image_name = create_db_image["image_name"]
     extravars = misc.get_test_vars(request.node.name)
     primary_name, standby_names = misc.get_node_names(extravars.get("standby_count", 0))
+    primary_db_props = extravars.get("primary_db_props", {})
     extravars.update({
         "image_name": image_name,
         "primary": primary_name,
-        "replicas": standby_names
+        "replicas": standby_names,
+        **primary_db_props
     })
     misc.run_playbook('create_cluster.yaml', extravars=extravars)
     cluster = clusters.Cluster(primary_name, standby_names)

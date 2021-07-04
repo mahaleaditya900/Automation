@@ -24,8 +24,8 @@ UpdatePostgresqlConf(){
   echo "max_wal_senders = 5" >> $PGDATA/postgresql.conf
   echo "wal_level = hot_standby" >> $PGDATA/postgresql.conf
   echo "hot_standby = on" >> $PGDATA/postgresql.conf
-  echo "max_replication_slots=5" >> $PGDATA/postgresql.conf
-  echo "wal_keep_size=8000" >> $PGDATA/postgresql.conf
+  echo "max_replication_slots=$MAX_REPLICATION_SLOTS" >> $PGDATA/postgresql.conf
+  echo "wal_keep_size=$WAL_KEEP_SIZE" >> $PGDATA/postgresql.conf
 }
 
 StartPrimary() {

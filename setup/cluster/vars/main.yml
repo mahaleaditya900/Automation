@@ -6,3 +6,9 @@ replicas:
   - replica2
   - replica3
 image_name: dbepascentos7
+database_user: enterprisedb
+database_name: edb
+# Primary DB properties
+max_replication_slots: "5"
+wal_keep_size: "8000"
+db_port: "5433"
