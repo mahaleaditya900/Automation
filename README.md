@@ -1,0 +1,1 @@
+1. Install Python version >= 3

@@ -1,5 +1,5 @@
 import pytest
-from utils import misc, clusters
+from test_automation.utils import misc, clusters
 
 
 # Custom Pytest command line options
