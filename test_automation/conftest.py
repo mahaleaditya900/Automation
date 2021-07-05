@@ -40,6 +40,7 @@ def pytest_addoption(parser):
     )
 
 
+# Sets HTML report's test configuration information
 def pytest_configure(config):
     os_type = config.getoption("--os_type")
     os_version = config.getoption("--os_version")
@@ -80,6 +81,9 @@ def debug(request):
 # Setup fixtures
 @pytest.fixture(scope='session')
 def create_db_image(database_type, database_version, platform_type, platform_version):
+    """
+    Builds images required for the test run by calling the ansible playbook
+    """
     image_name = "db{}{}{}".format(database_type, platform_type, platform_version)
     db_props = misc.get_db_props(database_type)
     misc.run_playbook('build_images.yaml', extravars={
@@ -95,6 +99,10 @@ def create_db_image(database_type, database_version, platform_type, platform_ver
 
 @pytest.fixture
 def create_cluster(request, create_db_image, debug):
+    """
+    Creates a database cluster by utilizing images created by the "create_db_image" fixture.
+    The fixture passes variables to the ansible playbook for creating a custom cluster.
+    """
     # Create cluster
     image_name = create_db_image["image_name"]
     extravars = misc.get_test_vars(request.node.name)

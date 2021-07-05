@@ -1,3 +1,5 @@
+# The "tests" dictionary holds the custom properties required for the test cluster.
+# Each key in the "tests" dictionary should have the same name as the target test function.
 tests = {
     "test_1": {
         "primary_db_props": {

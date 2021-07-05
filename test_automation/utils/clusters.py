@@ -2,7 +2,9 @@ import docker
 
 
 class Cluster:
-
+    """
+    Container for holding cluster's information
+    """
     def __init__(self, primary_name, standby_names):
         client = docker.from_env()
         self._primary = client.containers.get(primary_name)
