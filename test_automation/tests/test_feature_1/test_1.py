@@ -1,9 +1,13 @@
 import time
+import pytest
 
 from test_automation.utils import database
 
+pytestmark = pytest.mark.feature1
 
-def test_new(create_cluster):
+
+@pytest.mark.feature1_1
+def test_3(create_cluster):
     cluster = create_cluster["cluster"]
     db_props = create_cluster["db_props"]
     primary_ip = cluster.get_primary_ip()
@@ -20,7 +24,8 @@ def test_new(create_cluster):
     assert data[0][1] == 'Test'
 
 
-def test_new1(create_cluster):
+@pytest.mark.feature1_2
+def test_4(create_cluster):
     cluster = create_cluster["cluster"]
     db_props = create_cluster["db_props"]
     primary_ip = cluster.get_primary_ip()
