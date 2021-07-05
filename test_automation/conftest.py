@@ -39,6 +39,19 @@ def pytest_addoption(parser):
         help="Debug cluster by keeping nodes running after the test is complete"
     )
 
+
+def pytest_configure(config):
+    os_type = config.getoption("--os_type")
+    os_version = config.getoption("--os_version")
+    db_type = config.getoption("--db_type")
+    db_version = config.getoption("--db_version")
+    config._metadata["Platform"] = "{} {}".format(os_type, os_version)
+    config._metadata["Database"] = "{} {}".format(db_type, db_version)
+
+
+def pytest_html_report_title(report):
+    report.title = "HA Automation"
+
 # Fixtures to retrieve command line options
 @pytest.fixture(scope="session")
 def database_type(request):
