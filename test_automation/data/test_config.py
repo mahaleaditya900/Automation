@@ -17,5 +17,6 @@ tests = {
         "primary_db_props": {
             "max_replication_slots": "8",
         }
-    }
+    },
+    "test_5": {}
 }
