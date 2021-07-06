@@ -40,6 +40,3 @@ def test_4(create_cluster):
     data = db.select_query("SELECT * FROM test")
     db.tear_down_connection()
     assert data[1][1] == 'Name'
-
-def test_5(create_cluster):
-    assert 1 == 2
